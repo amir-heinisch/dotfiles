@@ -19,9 +19,10 @@ export PATH="${HOME}/.local/bin:${PATH}:${HOME}/.cargo/bin:${HOME}/go/bin:${HOME
 # Set lang.
 export LANG=en_US.UTF-8
 
-# Use powerline delimiter if set to one.
+# Use powerline delimiter. (Unset variable to not use it)
+# Quick fix to only run in x env..
 # NOTE! You need to install some patched font first.
-export POWERLINE=0
+[ $DISPLAY ] && export POWERLINE=1
 
 # Set default applications.
 export EDITOR='vim'
@@ -31,33 +32,20 @@ export MUSIC="spotify"
 export BROWSER="firefox"
 export TERM='xterm-256color'
 
-# Set XDG paths + my custom ones.
-#
-# My folder structure should be like this:
-#
-# All cofig files are here: ${HOME}/.config.
-# All cache files are here: ${HOME}/.cache.
-#
-# Everything else will be in ${HOME}/.local/
-#
-#   - bin       : my custom executables.
-#   - log       : user logs.
-#   - lib       : local libs
-#   - man       : local man pages.
-#   - share     : application data.
-#   - fonts     : for new fonts.
-#   - history   : apps hist files.
-#   - pictures  : screenshots, wallpapers and lockscreens.
-#
+# Set XDG paths + some custom ones.
 export XDG_DATA_HOME="${HOME}/.local/share"
 export XDG_CONFIG_HOME="${HOME}/.config"
 export XDG_CACHE_HOME="${HOME}/.cache"
+#export XDG_RUNTIME_HOME="/run/user/$(id -u)"
+
 export XDG_HISTORY_HOME="${HOME}/.local/history"
 export XDG_MAN_HOME="${HOME}/.local/man"
 export XDG_LOG_HOME="${HOME}/.local/log"
+export XDG_FONT_HOME="${HOME}/.local/font"
+export XDG_PICTURE_HOME="${HOME}/Pictures"
 
 # Create folder if not existent.
-mkdir -p $XDG_DATA_HOME $XDG_CONFIG_HOME $XDG_CACHE_HOME $XDG_HISTORY_HOME $XDG_MAN_HOME $XDG_LOG_HOME
+mkdir -p $XDG_DATA_HOME $XDG_CONFIG_HOME $XDG_CACHE_HOME $XDG_HISTORY_HOME $XDG_MAN_HOME $XDG_LOG_HOME $XDG_PICTURE_HOME
 
 # Set manpage PATH.
 export MANPATH="${XDG_MAN_HOME}:/usr/local/man:${MANPATH}"

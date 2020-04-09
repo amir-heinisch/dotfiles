@@ -1,0 +1,11 @@
+{
+	"name": "zsh",
+	"description": "The shell to use. Very customizable with some nice plugins and features.",
+	"packages": {
+		"default": "zsh",
+		"dependencies": ["shell"]
+	},
+	"setdown": {
+		"files": [ "${HOME}/.zcompdump-*", "${XDG_HISTORY_HOME}/zsh" ]
+	}
+}

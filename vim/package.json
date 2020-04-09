@@ -1,0 +1,11 @@
+{
+	"name": "vim",
+	"description": "Cli editor.",
+	"packages": {
+		"default": "vim"
+		"dependencies": ["ctags"]
+	},
+	"setdown": {
+		"files": [ "${HOME}/.viminfo", "${XDG_HISTORY_HOME}/vim" ]
+	}
+}

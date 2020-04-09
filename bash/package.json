@@ -3,9 +3,7 @@
 	"description": "Just another shell. I prefer zsh for my daily work, but sometimes you have no choice. The rc file just source my genereic shell configuration (aliases, functions, etc.) and creates a new history file in my favorite location.",
 	"packages": {
 		"default": "bash"
-	},
-	"setup": {
-		"manual": []
+		"dependencies": ["shell"]
 	},
 	"setdown": {
 		"files": [ "${HOME}/.bash_history", "${XDG_HISTORY_HOME}/bash" ]

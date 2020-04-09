@@ -2,10 +2,8 @@
 	"name": "tmux",
 	"description": "Best terminal multiplexer available.",
 	"packages": {
-		"default": "tmux"
-	},
-	"setup": {
-		"manual": []
+		"default": "tmux",
+		"dependencies": ["shell"]
 	},
 	"setdown": {
 		"files": [ "${XDG_HISTORY_HOME}/tmux" ]

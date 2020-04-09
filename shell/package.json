@@ -1,0 +1,4 @@
+{
+	"name": "shell",
+	"description": "Just a meta package which sets up all generic shell stuff."
+}

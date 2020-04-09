@@ -1,0 +1,2 @@
+# This file should just create a generic shell prompt.
+PS1="[\u@\h \W]\$ "

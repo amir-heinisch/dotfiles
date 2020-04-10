@@ -25,9 +25,9 @@ configuration {
 * {
 
     // Define some colors.
-    fg: #ffeeddff;
+    fg: #F9FAF9;
     tr: #00000000;
-    bg: #111111ec;
+    bg: #222D31ec;
 
     font: "Droid Sans Mono 10";
 
@@ -68,13 +68,14 @@ configuration {
 
 #prompt {
     padding: 20px 20px 0px 20px;
-    font: "SF Pro Display Ultralight 20";
+    text-color: #16A085cc;
+    font: "Droid Sans Mono 15";
     background-color: @tr;
 }
 
 #entry {
     padding: 20px 20px 20px 10px;
-    font: "SF Pro Display Light 18";
+    font: "Droid Sans Mono 15";
     background-color: @tr;
 }
 
@@ -96,11 +97,13 @@ configuration {
 #element {
     padding: 20px;
     background-color: @tr;
-    border-color: #555555cc;
+    border-color: #595B5B;
     border: 0px 0px 1px 0px;
 }
 
 #element selected {
-    background-color: #555555cc;
+    background-color: #16A085cc;
+    text-color: #222D31;
+    border-color: #222D31;
     border-radius: 5px;
 }

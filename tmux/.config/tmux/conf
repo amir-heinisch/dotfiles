@@ -10,56 +10,67 @@
 #                                                                           #
 #############################################################################
 
-
 # {{{ # Server options #
 
 # Set max number of buffers on stack.
 set-option -s buffer-limit 50
+
 # Set some aliases here.
 set-option -s command-alias ''
 set-option -s command-alias[0] 'info=show-messages -JT'
+
 # Value of TERM env var in new pane (screen or tmux or derived from them).
 set-option -s default-terminal 'screen-256color'
+
 # Make delay after escape sequence shorter.
 # TODO: check for problems.
 set-option -s escape-time 0
+
 # Exit server if last session is closed.
 set-option -s exit-empty on
+
 # Do not exit server if all clients unattached.
 set-option -s exit-unattached off
+
 # Passes focus events to application in tmux.
 # TODO: check for problems.
 set-option -s focus-events 'on'
+
 # Set history file location.
 set-option -s history-file '$XDG_HISTORY_HOME/tmux'
+
 # Messages buffer max size for client.
 set-option -s message-limit 10
+
 # No clipboard needed.
 set-option -s set-clipboard 'off'
+
 # Set mappings for escape sequences.
 # TODO: maybe we need these?
 #"xterm*:XT:Ms=\\E]52;%p1%s;%p2%s\\007:Cs=\\E]12;%p1%s\\007:Cr=\\E]112\\007:Ss=\\E[%p1%d q:Se=\\E[2 q"
 #terminal-overrides[1] screen*:XT
 set-option -s terminal-overrides ''
+
 # Set user key mappings.
 set-option -s user-keys ''
 
 # }}}
 
+# {{{ # Session options #
 
 # TODO: add more options.
 
-# {{{ # Session options #
-
 # }}}
-
 
 # {{{ # Windows options #
 
+# TODO: add more options.
+
 # }}}
 
-
 # {{{ # Pane options #
+
+# TODO: add more options.
 
 # Start counting windows from one.
 set-option -g base-index 1
@@ -71,13 +82,14 @@ set-option -g allow-rename off
 #setw -g pane-border-status top
 set-option -g pane-border-status top
 set-option -g pane-border-style 'bg=default,fg=default'
-set-option -g pane-active-border-style 'bg=default,fg=green bold'
+set-option -g pane-active-border-style 'bg=default,fg=#16A085 bold'
 set-option -g pane-border-format ' #{pane_current_command} '
 
 # }}}
 
-
 # {{{ # Style options #
+
+# TODO: add more options.
 
 # Enable a status bar.
 set-option -g status on
@@ -87,7 +99,6 @@ set-option -g status-justify centre
 set-option -g status-style 'bg=default,fg=default'
 
 # }}}
-
 
 # {{{ # Key bindings #
 
@@ -135,17 +146,18 @@ bind-key -T prefix s choose-tree -GN
 # Open manpage in different pane.
 #bind-key -T root M-m command-prompt "split window -h 'exec man %%'"
 
-# Enable inner mode.
+# Enable remote mode.
 bind -T root F7  \
   set prefix None \;\
   set key-table off \;\
   set status off \;\
   set pane-active-border-style 'bg=default,fg=default' \;\
-  set pane-border-format ' INNER TMUX SESSION ' \;\
+  set pane-border-format ' REMOTE TMUX SESSION ' \;\
   resize-pane -Z \;\
   if -F '#{pane_in_mode}' 'send-keys -X cancel' \;\
   refresh-client -S \;
-# Deactivate inner mode.
+
+# Deactivate remote mode.
 bind -T off F7 \
   set -u prefix \;\
   set -u key-table \;\

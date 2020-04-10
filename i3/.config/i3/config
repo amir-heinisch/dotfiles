@@ -1,7 +1,14 @@
-# i3 config file (v4)
-#
-# @author    Amir Heinisch <mail@amir-heinisch.de>
-# @version   1.3 (03/09/2019)
+###########################################################################
+#                                                                         #
+# This file contains my personal i3 configurations.                       #
+#                                                                         #
+# @package    dotfiles/i3                                                 #
+# @filename   .config/i3/config                                           #
+# @author     Amir Heinisch <mail@amir-heinisch.de>                       #
+# @link       https://amir-heinisch.de                                    #
+# @version    1.0 (10/04/2020)                                            #
+#                                                                         #
+###########################################################################
 
 # {{{ # General #
 
@@ -143,14 +150,11 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute "@DEFAULT_SINK@" 
 bindsym $mod+XF86AudioMute exec --no-startup-id pactl set-sink-mute "@DEFAULT_SINK@" toggle
 
 # Brigthness
-# bindsym XF86MonBrightnessUp exec xbacklight -inc 20
-# bindsym XF86MonBrightnessDown exec xbacklight -dec 20
+bindsym XF86MonBrightnessUp exec xbacklight -inc 10
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10
 
 # Screenshot
-# bindsym $mod+n exec --no-startup-id thunar
-# bindsym --release Print exec --no-startup-id "maim -p 0 -c 0.96,0.5,0.09 $HOME/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png"
 bindsym Print exec --no-startup-id zsh -c screenshot
-# bindsym --release Shift+Print exec --no-startup-id "maim -s -p 0 -c 0.96,0.5,0.09 $HOME/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png"
 
 # TODO: use them if you want...
 # bindsym XF86AudioPrev
@@ -171,19 +175,12 @@ bindsym $mod+Mod1+l exec i3lock -i ~/Pictures/Wallpapers/lock.png -t
 # Gopass
 bindsym $mod+p exec gopass ls --flat | rofi -dmenu -p gopass | xargs --no-run-if-empty gopass show -c
 
-# Rofi
-# TODO:
-# NOTE! works but slow..better use guake hook to disable fullscreen of i3
-# bindsym $mod+m exec --no-startup-id "i3-msg fullscreen disable; guake -t"
+# Terminal
 bindsym $mod+Return exec --no-startup-id termite
 
-#bindsym $mod+space exec --no-startup-id termite -t 'fzf-menu' -e 'i3-dmenu-desktop --dmenu=fzf'
-#for_window [title="fzf-menu"] floating enable
-
+# Rofi
 bindsym $mod+space exec --no-startup-id rofi -show
 bindsym $mod+Tab exec --no-startup-id rofi -modi window -show window
-# bindsym $mod+l exec --no-startup-id rofi -modi drun -show drun
-# bindsym $mod+l exec iwlist wlp2s0 scanning | grep ESSID | cut -d\" -f2 | rofi -dmenu
 
 ## }}}
 
@@ -340,12 +337,12 @@ bar {
     hidden_state hide
     height 100
 
-	tray_output primary
+    tray_output primary
 
     binding_mode_indicator no
 
     workspace_buttons yes
-	workspace_min_width 60
+    workspace_min_width 60
     strip_workspace_numbers no
     strip_workspace_name no
 
@@ -381,7 +378,7 @@ bar {
     separator_symbol " | "
     workspace_buttons no
     tray_padding 0
-	tray_output none
+    tray_output none
 
     colors {
         background #222D31
@@ -416,17 +413,7 @@ exec_always --no-startup-id guake --hide
 for_window [class="guake"] floating disable
 
 no_focus [class="firefox"]
-# firefoxa -CreateProfile <name>
-# TODO: automate create of profiles
-#exec_always --no-startup-id firefox --no-remote -P dashboard --private --kiosk https://n-tv.de
 exec_always --no-startup-id i3-msg "workspace $ws1; exec firefox --no-remote -P dashboard --private --kiosk https://n-tv.de"
-
-# Start social stuff.
-#exec_always --no-startup-id firefox --no-remote -P social https://web.whatsapp.com https://web.telegram.org https://beta.protonmail.com https://slack.com https://talk.saarsec.rocks https://github.com https://twitter.com https://www.amazon.de/gp/cart/view.html https://www.linkedin.com/feed/
 exec_always --no-startup-id i3-msg "workspace $ws8; exec firefox --no-remote -P social; exec signal-desktop; exec firefox --no-remote -P media"
-
-# Start media stuff.
-#exec_always --no-startup-id firefox --no-remote -P media https://open.spotify.com https://youtube.com
-#exec_always --no-startup-id i3-msg "workspace $ws9; exec firefox --no-remote -P media"
 
 # }}}

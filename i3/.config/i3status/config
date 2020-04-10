@@ -1,12 +1,18 @@
-# i3status config file
-#
-# @author Amir Heinisch <mail@amir-heinisch.de>
-# @version 1.0 (03/10/2019)
-
-# It is important that this file is edited as UTF-8.
-# The following line should contain a sharp s:
-# ß
-# If the above line is not correctly displayed, fix your editor first!
+###########################################################################
+#                                                                         #
+# This file contains my personal i3status configurations.                 #
+#                                                                         #
+# NOTE! It is important that this file is edited as UTF-8.                #
+# The following character should be a sharp s: ß                          #
+# If the above line is not correctly displayed, fix your editor first!    #
+#                                                                         #
+# @package    dotfiles/i3                                                 #
+# @filename   .config/i3status/config                                     #
+# @author     Amir Heinisch <mail@amir-heinisch.de>                       #
+# @link       https://amir-heinisch.de                                    #
+# @version    1.0 (10/04/2020)                                            #
+#                                                                         #
+###########################################################################
 
 ##### Configure general stuff here.
 general {
@@ -24,7 +30,7 @@ order += "disk /"
 order += "memory"
 order += "cpu_usage"
 order += "battery all"
-#order += "volume master"
+order += "volume master"
 order += "tztime local"
 
 ##### Configure widgets.
@@ -47,11 +53,13 @@ disk "/" {
 }
 
 memory {
+	# TODO: find icon
 	format = "mem: %used / %total"
 	threshold_critical = "10%"
 }
 
 cpu_usage {
+	# TODO: find icon
 	format = "cpu: %usage"
 	max_threshold = 75
 }

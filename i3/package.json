@@ -2,9 +2,6 @@
 	"name": "i3",
 	"description": "Best tiling window manager, configure with statusbar, lockscreen etc.",
 	"packages": {
-		"packageManagers": {
-			"pacman": [ "i3-wm", "i3status", "i3lock", "xbacklight", "pactl", "scrot", "feh", "onboard", "usbguard", "compton" ]
-		},
-		"configDependencies": ["shell", "local", "guake", "dunst", "xorg", "firefox" ]
+		"pacman": [ "i3-wm", "i3status", "i3lock", "xbacklight", "pactl", "scrot", "feh", "onboard", "usbguard", "compton", "gopass", "rofi", "dunst", "firefox" ]
 	}
 }

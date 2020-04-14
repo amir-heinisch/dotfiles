@@ -1,6 +1,6 @@
 {
 	"name": "rofi",
-	"description": "better application launcher then dmenu",
+	"description": "Better application launcher then dmenu",
 	"packages": {
 		"pacman": "rofi"
 	},

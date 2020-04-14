@@ -1,12 +1,12 @@
 #############################################################################
 #                                                                           #
-# This file loads all my generic shell stuff.                               #
+# This file loads all my generic shell config stuff.                        #
 #                                                                           #
 # @package    dotfiles/shell                                                #
-# @filename   generic                                                       #
+# @filename   .config/shell/generic                                         #
 # @author     Amir Heinisch <mail@amir-heinisch.de>                         #
 # @link       https://amir-heinisch.de                                      #
-# @version    1.1 (03/10/2019)                                              #
+# @version    1.0 (14/04/2020)                                              #
 #                                                                           #
 #############################################################################
 

@@ -1,2 +1,12 @@
-# This file should just create a generic shell prompt.
+#############################################################################
+#                                                                           #
+# This file should just create a generic default shell prompt.              #
+#                                                                           #
+# @package    dotfiles/shell                                                #
+# @filename   .config/shell/prompt                                          #
+# @author     Amir Heinisch <mail@amir-heinisch.de>                         #
+# @link       https://amir-heinisch.de                                      #
+# @version    1.0 (14/04/2020)                                              #
+#                                                                           #
+#############################################################################
 PS1="[\u@\h \W]\$ "

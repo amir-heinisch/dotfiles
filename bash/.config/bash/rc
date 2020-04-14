@@ -15,7 +15,7 @@
 [[ $- != *i* ]] && return
 
 # Source global configurations if needed.
-# [ -f /etc/bashrc ] && source /etc/bashrc
+# [ -f /etc/bashrc ] && . /etc/bashrc
 
 # Load all generic shell stuff.
 if [ -f ~/.config/shell/generic ];

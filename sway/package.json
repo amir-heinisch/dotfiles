@@ -1,0 +1,8 @@
+{
+	"name": "sway",
+	"description": "Wayland i3 like setup.",
+	"configDependencies": [ "swaylock", "mako", "wofi", "i3status" ],
+	"packages": {
+		"pacman": [ "sway", "light", "grim", "xorg-server-xwayland" ]
+	}
+}

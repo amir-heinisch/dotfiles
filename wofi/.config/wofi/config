@@ -1,0 +1,133 @@
+# ###########################################################################
+# #                                                                         #
+# # This file contains my personal wofi configurations.                     #
+# #                                                                         #
+# # @package    dotfiles/wofi                                               #
+# # @filename   .confi/wofi/config                                          #
+# # @author     Amir Heinisch <mail@amir-heinisch.de>                       #
+# # @link       https://amir-heinisch.de                                    #
+# # @version    1.0 (10/05/2020)                                            #
+# #                                                                         #
+# ###########################################################################
+
+width=750
+height=400
+prompt=
+normal_window=false
+allow_images=true
+allow_markup=false
+term=alarcitty
+#password=*
+exec_search=false
+hide_scroll=true
+#matching=fuzzy
+insensitive=true
+parse_search=false
+location=center
+no_actions=false
+columns=2
+sort_order=default
+orientation=vertical
+halign=fill
+valign=start
+content_halign=fill
+filer_rate=100
+image_size=20
+key_down=Control_L-j
+key_up=Control_L-k
+key_left=Control_L-h
+key_right=Control_L-l
+key_submit=Return
+key_exit=Escape
+key_forward=Clear
+key_backward=Clear
+line_wrap=off
+global_coords=false
+hide_search=false
+
+# Names of views.
+# display-ssh:    "" ;
+# display-run:    "";
+# display-drun:   "";
+# display-window: """ ;
+# display-combi:  "";
+
+# Terminal to use.
+#rofi.terminal: guake
+# Use combi mode as default.
+#rofi.modi: combi,drun,run,ssh
+# Show matching characters.
+#rofi.show-match: true
+# Open rofi on the monitor which shows the mouse pointer.
+#rofi.monitor: -5
+# Click the mouse outside of the rofi window to exit.
+#rofi.click-to-exit: true
+
+# KEY BINDINGS
+# ----------------------------------------------------------------------------
+
+# Next mode.
+#rofi.kb-mode-next: Super+l
+# Previous mode.
+#rofi.kb-mode-previous: Super+h
+
+# Use entered text as command (in ssh/run modi)
+#rofi.kb-accept-custom: Super+Return
+
+# Launch the application in a terminal (in run mode). Return the 
+# selected entry and move to the next item while keeping Rofi open.
+#rofi.kb-accept-alt: Control+Return
+
+# Quit rofi.
+#rofi.kb-cancel: Super+space,Escape,Super+p
+
+
+# SSH SETTINGS
+# ----------------------------------------------------------------------------
+
+# The ssh client to use.
+#rofi.ssh-client: ssh
+
+# Command to run.
+#rofi.ssh-command: {terminal} -e "{ssh-client} {host}"
+
+# Parse the /etc/hosts file for entries.
+#rofi.parse-hosts: false
+
+# Parse the ~/.ssh/known_hosts file for entries.
+#rofi.parse-known-hosts: false
+
+
+# RUN SETTINGS
+# ----------------------------------------------------------------------------
+
+# Set drun row content.
+#rofi.drun-display-format: {name} [({generic})]
+
+# Set command ({cmd}) to execute when running an application.
+#rofi.run-command: {cmd}
+
+# Set command to execute when running an application in a shell.
+#rofi.run-shell-command: {terminal} -e {cmd}
+
+# If set, use an external tool to generate list of executable commands.
+# Uses 'run-command'.
+#rofi.run-list-command:
+
+
+# COMBI SETTINGS
+# ----------------------------------------------------------------------------
+
+# The modi to combine in combi mode. For syntax to see -modi.
+#rofi.combi-modi: drun,run,ssh
+
+# WINDOW MODE
+# ----------------------------------------------------------------------------
+
+# Set the name to use for windowcd mode. This is used as prompt and in combi-browser.
+#rofi.display-windowcd:
+
+# Format what is being displayed for windows.
+#rofi.window-format: #{w} {c:0} {t}
+
+# Set command to execute on selected window for custom action.  #rofi.window-command: xkill -id {window}

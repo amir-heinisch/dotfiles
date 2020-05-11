@@ -1,0 +1,501 @@
+# sway config file
+#
+# @author    Amir Heinisch <mail@amir-heinisch.de>
+# @version   1.0 (10/05/2020)
+
+# grimshot, wl-clipboard, wl-clipboard-history, ydotool, wlr-randr, wdisplays, wshowkeys, waypipe, wev, wob, wofi, wf-recorder, wayvnc, i3status, qt5-wayland, glfw-wayland
+
+# seat <name> hide_cursor <timeout>
+
+# {{{ # Variables #
+
+# Set action key.
+set $mod Mod4
+
+# Define font.
+set $font pango:Droid Sans Mono 10, FontAwesome 10
+
+# Preferred terminal emulator.
+set $terminal alacritty
+
+# Laptop output name.
+set $laptop 'Sharp Corporation 0x146B 0x00000000'
+
+# Define workspace names.
+# NOTE! whitespaces are not working..
+set $ws1  "1:  "
+set $ws2  "2:  "
+set $ws3  "3:  "
+set $ws4  "4:  "
+set $ws5  "5:  "
+set $ws6  "6:  "
+set $ws7  "7:  "
+set $ws8  "8:  "
+set $ws9  "9:  "
+
+# Define color.
+set $white #ffffffff
+set $black #000000ff
+set $red #ffffffff
+set $grey #ffffffff
+set $orange #ffffffff
+set $transparent #00000000
+
+set $foreground $white
+set $background $black
+
+#set_from_resource $black       color0  #000000
+#set_from_resource $darkred     color1  #000000
+#set_from_resource $darkgreen   color2  #000000
+#set_from_resource $darkyellow  color3  #000000
+#set_from_resource $darkblue    color4  #000000
+#set_from_resource $darkmagenta color5  #000000
+#set_from_resource $darkcyan    color6  #000000
+#set_from_resource $darkwhite   color7  #000000
+#set_from_resource $red         color9  #cc0000
+#set_from_resource $green       color10 #000000
+#set_from_resource $yellow      color11 #000000
+#set_from_resource $blue        color12 #000000
+#set_from_resource $magenta     color13 #000000
+#set_from_resource $cyan        color14 #2e9ef4
+#set_from_resource $white       color15 #ffffff
+
+# }}}
+
+# {{{ # Input #
+
+# NOTE! For naming see: swaymsg -t get_inputs
+
+input type:keyboard {
+	xkb_layout de
+	xkb_options ctrl:nocaps
+	repeat_delay 200
+	repeat_rate 20
+}
+
+input type:touch {
+	map_to_output $laptop
+}
+
+input type:touchpad {
+	tap enabled
+	natural_scroll enabled
+#	dwt enabled
+# scroll_factor
+#	middle_emulation enabled
+}
+
+# }}}
+
+# {{{ # Outputs #
+
+# NOTE! For naming see: swaymsg -t get_outputs
+
+# Set wallpaper.
+# TODO: XDG_PICTURE_HOME
+swaybg_command swaybg
+output * bg ~/Pictures/Wallpapers/arch_snow.png fill
+
+#output * scale 2
+output $laptop {
+	scale 2
+}
+bindswitch --reload --locked lid:on output $laptop disable
+bindswitch --reload --locked lid:off output $laptop enable
+
+# Set resolution.
+# output HDMI-A-1 resolution 1920x1080 position 1920,0
+
+# Define monitors for workspaces.
+workspace $ws1 output HDMI-1 HDMI-2 DP-1 DP-2 eDP-1
+workspace $ws2 output HDMI-1 HDMI-2 DP-1 DP-2 eDP-1
+workspace $ws3 output HDMI-1 HDMI-2 DP-1 DP-2 eDP-1
+workspace $ws4 output HDMI-1 HDMI-2 DP-1 DP-2 eDP-1
+workspace $ws5 output HDMI-1 HDMI-2 DP-1 DP-2 eDP-1
+workspace $ws6 output HDMI-1 HDMI-2 DP-1 DP-2 eDP-1
+workspace $ws7 output HDMI-1 HDMI-2 DP-1 DP-2 eDP-1
+workspace $ws8 output eDP-1
+workspace $ws9 output eDP-1
+
+# }}}
+
+# {{{ # UI #
+
+# Set font.
+font $font
+
+popup_during_fullscreen smart
+#for_window [window_role="pop-up"]      floating enable
+#for_window [window_role="bubble"]      floating enable 
+#for_window [window_role="task_dialog"] floating enable
+#for_window [window_role="Preferences"] floating enable
+#for_window [window_type="dialog"]      floating enable 
+#for_window [window_type="menu"]        floating enable
+
+# Hide title bar and set border.
+default_border pixel 2
+for_window [shell=".*"] title_format "%title :: %shell"
+
+#                       BORDER  BACKGROUND  TEXT    INDICATOR
+#client.focused         #556064 #556064     #80FFF9 #FDF6E3
+client.focused          #16A085 #16A085     #80FFF9 #FDF6E3
+client.focused_inactive #2F3D44 #2F3D44     #1ABC9C #454948
+client.unfocused        #2F3D44 #2F3D44     #1ABC9C #454948
+client.urgent           #CB4B16 #FDF6E3     #1ABC9C #268BD2
+client.placeholder      #000000 #0c0c0c     #ffffff #000000
+client.background       #2B2C2B
+
+# }}}
+
+# {{{ # Keys #
+
+# Drag and resize windows.
+floating_modifier $mod normal
+
+# Disable default for most applications.
+bindsym Ctrl+q nop
+
+# Start terminal.
+bindsym $mod+Return exec $terminal
+
+# Kill focused window.
+bindsym $mod+q kill
+
+# Mako notifications.
+bindsym $mod+n exec makoctl dismiss
+bindsym $mod+Shift+n exec makoctl restore
+bindsym $mod+Ctrl+n exec makoctl menu wofi -d -p 'Select Action: '
+
+# swaylock
+bindsym $mod+Ctrl+l exec swaylock
+
+# Gopass
+bindsym $mod+p exec gopass ls --flat | wofi -d -p gopass | xargs --no-run-if-empty gopass show -c
+
+# Rofi
+# bindsym $mod+l exec iwlist wlp2s0 scanning | grep ESSID | cut -d\" -f2 | rofi -dmenu
+
+# Start launcher.
+bindsym $mod+space exec "swaymsg fullscreen disable; wofi --show=drun"
+
+# Reload configuration file.
+bindsym $mod+Shift+r reload
+
+# Exit sway (logs you out of your Wayland session)
+bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+
+# Fullscreen.
+bindsym $mod+f fullscreen
+
+# Change spawn direction.
+bindsym $mod+e layout toggle split
+
+# Floating mode.
+bindsym $mod+Shift+space floating toggle
+
+# Switch workspaces.
+bindsym $mod+o workspace next
+bindsym $mod+i workspace prev
+
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3 
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+
+# Change window focus.
+bindsym $mod+h focus left
+bindsym $mod+Left focus left
+
+bindsym $mod+l focus right
+bindsym $mod+Right focus right
+
+bindsym $mod+k focus up
+bindsym $mod+Up focus up
+
+bindsym $mod+j focus down
+bindsym $mod+Down focus down
+
+# Move windows.
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+Left move left
+
+bindsym $mod+Shift+l move right
+bindsym $mod+Shift+Right move right
+
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+Up move up
+
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+Down move down
+
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+
+# Enable pip mode for current window.
+#bindsym $mod+s fullscreen disable; floating enable; resize set 600 400; sticky enable; move window to position 1940 54
+# bindsym $mod+a focus parent
+# bindsym $mod+Shift+a focus child
+
+# Scratchpad.
+bindsym $mod+Shift+m move scratchpad
+bindsym $mod+Ctrl+m scratchpad show; resize set 98ppt 30ppt; move position 15px 610px;
+bindsym $mod+m scratchpad show; resize set 98ppt 98ppt; move position center;
+
+## {{{ ## Special keys ##
+
+# Volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume "@DEFAULT_SINK@" -5% && killall -USR1 i3status
+bindsym $mod+XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume "@DEFAULT_SINK@" -5% && killall -USR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume "@DEFAULT_SINK@" +5% && killall -USR1 i3status
+bindsym $mod+XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume "@DEFAULT_SINK@" +5% && killall -USR1 i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute "@DEFAULT_SINK@" toggle
+bindsym $mod+XF86AudioMute exec --no-startup-id pactl set-sink-mute "@DEFAULT_SINK@" toggle
+
+# Brigthness
+# bindsym XF86MonBrightnessUp exec xbacklight -inc 20
+# bindsym XF86MonBrightnessDown exec xbacklight -dec 20
+
+# Screenshot
+# bindsym $mod+n exec --no-startup-id thunar
+# bindsym --release Print exec --no-startup-id "maim -p 0 -c 0.96,0.5,0.09 $HOME/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png"
+# bindsym --release Shift+Print exec --no-startup-id "maim -s -p 0 -c 0.96,0.5,0.09 $HOME/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png"
+
+# TODO: use them if you want...
+# bindsym XF86AudioPrev
+# bindsym XF86AudioNext
+# bindsym XF86AudioPlay
+# bindsym XF86MyComputer
+# bindsym XF86HomePage
+# bindsym XF86Calculator
+# bindsym XF86AudioMedia
+
+## }}}
+
+# }}}
+
+# {{{ # Modes #
+
+## {{{ ## Monitors ##
+
+set $mode_monitor monitors: (0) Setups (1) eDP-1 (2) HDMI-1 (3) HDMI-2 (4) DP-1 (5) DP-2
+bindsym $mod+d mode "$mode_monitor"
+mode "$mode_monitor" {
+	bindsym 0 mode "$mode_monitor_setups"
+	bindsym 1 mode "$mode_internal_monitor"
+	bindsym 3 mode "$mode_external_monitor_hdmi2"
+	bindsym 4 mode "$mode_external_monitor_dp1"
+	bindsym 5 mode "$mode_external_monitor_dp2"
+
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
+	bindsym q mode "default"
+}
+
+set $mode_monitor_setups Setups: (0) Reset (1) Home (2) HomeEx (3) Work (4) University
+mode "$mode_monitor_setups" {
+	bindsym 0 mode "$mode_monitor", exec xrandr --output eDP-1 --auto --output HDMI-1 --off  --output HDMI-2 --off  --output DP-1 --off --output DP-2 --off
+	bindsym 1 mode "$mode_monitor", exec xrandr --output eDP-1 --off  --output HDMI-1 --auto --output HDMI-2 --auto --right-of HDMI-1 --output DP-1 --off --output DP-2 --off
+	bindsym 2 mode "$mode_monitor", exec xrandr --output eDP-1 --auto --output HDMI-1 --auto --right-of eDP-1 --output HDMI-2 --auto --right-of HDMI-1
+	bindsym 3 mode "$mode_monitor", exec xrandr --output eDP-1 --auto --output HDMI-1 --off  --output HDMI-2 --off  --output DP-1 --off --output DP-2 --off
+	bindsym 4 mode "$mode_monitor", exec xrandr --output eDP-1 --auto --output HDMI-1 --off  --output HDMI-2 --off  --output DP-1 --auto --above eDP-1 --output DP-2 --off
+
+	bindsym Return mode "$mode_monitor"
+	bindsym Escape mode "$mode_monitor"
+	bindsym q mode "$mode_monitor"
+}
+
+set $mode_internal_monitor Internal (eDP-1) [a,o,n,i,l,r]
+mode "$mode_internal_monitor" {
+	bindsym a mode "$mode_monitor", exec xrandr --output eDP-1 --auto
+	bindsym o mode "$mode_monitor", exec xrandr --output eDP-1 --off
+	bindsym n mode "$mode_monitor", exec xrandr --output eDP-1 --rotate normal
+	bindsym i mode "$mode_monitor", exec xrandr --output eDP-1 --rotate inverted
+	bindsym l mode "$mode_monitor", exec xrandr --output eDP-1 --rotate left
+	bindsym r mode "$mode_monitor", exec xrandr --output eDP-1 --rotate right
+
+	bindsym Return mode "$mode_monitor"
+	bindsym Escape mode "$mode_monitor"
+	bindsym q mode "$mode_monitor"
+}
+
+set $mode_external_monitor_hdmi1 HDMI-1 [a,o,n,i,l,r]
+mode "$mode_external_monitor_hdmi1" {
+	bindsym a mode "$mode_monitor", exec xrandr --output HDMI-1 --auto
+	bindsym o mode "$mode_monitor", exec xrandr --output HDMI-1 --off
+	bindsym n mode "$mode_monitor", exec xrandr --output HDMI-1 --rotate normal
+	bindsym i mode "$mode_monitor", exec xrandr --output HDMI-1 --rotate inverted
+	bindsym l mode "$mode_monitor", exec xrandr --output HDMI-1 --rotate left
+	bindsym r mode "$mode_monitor", exec xrandr --output HDMI-1 --rotate right
+
+	bindsym Return mode "$mode_monitor"
+	bindsym Escape mode "$mode_monitor"
+	bindsym q mode "$mode_monitor"
+}
+
+set $mode_external_monitor_hdmi2 HDMI-2 [a,o,n,i,l,r]
+mode "$mode_external_monitor_hdmi2" {
+	bindsym a mode "$mode_monitor", exec xrandr --output HDMI-2 --auto
+	bindsym o mode "$mode_monitor", exec xrandr --output HDMI-2 --off
+	bindsym n mode "$mode_monitor", exec xrandr --output HDMI-2 --rotate normal
+	bindsym i mode "$mode_monitor", exec xrandr --output HDMI-2 --rotate inverted
+	bindsym l mode "$mode_monitor", exec xrandr --output HDMI-2 --rotate left
+	bindsym r mode "$mode_monitor", exec xrandr --output HDMI-2 --rotate right
+
+	bindsym Return mode "$mode_monitor"
+	bindsym Escape mode "$mode_monitor"
+	bindsym q mode "$mode_monitor"
+}
+
+set $mode_external_monitor_dp1 DP-1 [a,o,n,i,l,r]
+mode "$mode_external_monitor_dp1" {
+	bindsym a mode "$mode_monitor", exec xrandr --output DP-1 --auto
+	bindsym o mode "$mode_monitor", exec xrandr --output DP-1 --off
+	bindsym n mode "$mode_monitor", exec xrandr --output DP-1 --rotate normal
+	bindsym i mode "$mode_monitor", exec xrandr --output DP-1 --rotate inverted
+	bindsym l mode "$mode_monitor", exec xrandr --output DP-1 --rotate left
+	bindsym r mode "$mode_monitor", exec xrandr --output DP-1 --rotate right
+
+	bindsym Return mode "$mode_monitor"
+	bindsym Escape mode "$mode_monitor"
+	bindsym q mode "$mode_monitor"
+}
+
+set $mode_external_monitor_dp2 DP-2 [a,o,n,i,l,r]
+mode "$mode_external_monitor_dp2" {
+	bindsym a mode "$mode_monitor", exec xrandr --output DP-2 --auto
+	bindsym o mode "$mode_monitor", exec xrandr --output DP-2 --off
+	bindsym n mode "$mode_monitor", exec xrandr --output DP-2 --rotate normal
+	bindsym i mode "$mode_monitor", exec xrandr --output DP-2 --rotate inverted
+	bindsym l mode "$mode_monitor", exec xrandr --output DP-2 --rotate left
+	bindsym r mode "$mode_monitor", exec xrandr --output DP-2 --rotate right
+
+	bindsym Return mode "$mode_monitor"
+	bindsym Escape mode "$mode_monitor"
+	bindsym q mode "$mode_monitor"
+}
+
+## }}}
+
+## {{{ ## Resize ##
+
+set $mode_resize resize
+bindsym $mod+r mode "$mode_resize"
+mode "$mode_resize" {
+	bindsym Left resize shrink width 10 px or 1 ppt
+	bindsym Down resize grow height 10 px or 1 ppt
+	bindsym Up resize shrink height 10 px or 1 ppt
+	bindsym Right resize grow width 10 px or 1 ppt
+
+	bindsym Shift+Left resize shrink width 20 px or 5 ppt
+	bindsym Shift+Down resize grow height 20 px or 5 ppt
+	bindsym Shift+Up resize shrink height 20 px or 5 ppt
+	bindsym Shift+Right resize grow width 20 px or 5 ppt
+
+	bindsym 1 mode "default", resize set 1000 600
+	bindsym 2 mode "default", resize set 1500 600
+	bindsym 3 mode "default", resize set 1200 1000
+
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
+}
+
+## }}}
+
+# }}}
+
+# {{{ Statusbar #
+
+## {{{ ## Bottom bar ##
+
+bar {
+	position bottom
+	output *
+	height 50
+	gaps 0
+	mode hide
+	hidden_state hide
+	modifier $mod
+	tray_output $laptop
+	tray_padding 15px
+	#tray_bindsym button1 ContextMenu
+	#tray_bindsym button3 Activate
+	binding_mode_indicator no
+	workspace_buttons yes
+	#workspace_min_width 60
+	strip_workspace_numbers no
+	strip_workspace_name no
+
+	colors {
+		statusline #F9FAF9
+		background #00000000
+		separator  #00000000
+
+		#                  BORDER       BACKGROUND  TEXT
+		focused_workspace  #222D31      #16A085     #222D31
+		active_workspace   #595B5B      #353836     #FDF6E3
+		inactive_workspace #595B5B      #222D31     #F9FAF9
+		urgent_workspace   #595B5B      #222D31     #E74C3C
+		binding_mode       #E5201D      #E74C3C     #F9FAF9
+	}
+}
+
+## }}}
+
+## {{{ ## Top bar ##
+
+bar {
+	position top
+	height 35
+	status_command i3status
+	modifier $mod
+	mode hide
+	hidden_state hide
+	separator_symbol " | "
+	workspace_buttons no
+	tray_output none
+
+	colors {
+		background #222D31
+		statusline #F9FAF9
+		separator  #16A085
+	}
+}
+
+## }}}
+
+# }}}
+
+# {{{ AUTOSTART #
+
+# NOTE! notification daemon mako starts up via dbus activation automatically.
+
+# Enable tablet mode.
+#exec_always --no-startup-id watchTablet &
+#for_window [class="onboard"] floating enable
+
+#exec_always firefox
+#assign [title="__focused__"] move to workspace $ws5
+
+#exec usbguard-applet-qt
+exec_always firefox --no-remote -P dashboard --private --kiosk https://n-tv.de
+exec_always guake --show --execute-command=tm
+for_window [app_id="guake"] move to scratchpad
+exec_always signal-desktop
+for_window [class="Signal"] move to workspace $ws8
+
+# Show success notification.
+exec_always notify-send --expire-time=7000 --app-name="sway" --urgency=low --icon=/usr/share/backgrounds/sway/Sway_Wallpaper_Blue_768x1024.png "Window Manager" "Startup successfull."
+
+# }}}

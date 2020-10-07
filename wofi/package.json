@@ -1,0 +1,8 @@
+{
+	"name": "wofi",
+	"description": "Application launcher inspired by rofi",
+	"configDependencies": [],
+	"packages": {
+		"pacman": [ "wofi" ]
+	}
+}

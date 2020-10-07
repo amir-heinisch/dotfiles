@@ -1,11 +1,14 @@
-# sway config file
-#
-# @author    Amir Heinisch <mail@amir-heinisch.de>
-# @version   1.0 (10/05/2020)
-
-# grimshot, wl-clipboard, wl-clipboard-history, ydotool, wlr-randr, wdisplays, wshowkeys, waypipe, wev, wob, wofi, wf-recorder, wayvnc, i3status, qt5-wayland, glfw-wayland
-
-# seat <name> hide_cursor <timeout>
+#############################################################################
+#                                                                           #
+# This file configures sway.                                                #
+#                                                                           #
+# @package    dotfiles/sway                                                 #
+# @filename   .config/sway/config                                           #
+# @author     Amir Heinisch <mail@amir-heinisch.de>                         #
+# @link       https://amir-heinisch.de                                      #
+# @version    1.1 (07/10/2020)                                              #
+#                                                                           #
+#############################################################################
 
 # {{{ # Variables #
 
@@ -16,7 +19,7 @@ set $mod Mod4
 set $font pango:Droid Sans Mono 10, FontAwesome 10
 
 # Preferred terminal emulator.
-set $terminal alacritty
+set $terminal termite
 
 # Laptop output name.
 set $laptop 'Sharp Corporation 0x146B 0x00000000'
@@ -33,33 +36,6 @@ set $ws7  "7:  "
 set $ws8  "8:  "
 set $ws9  "9:  "
 
-# Define color.
-set $white #ffffffff
-set $black #000000ff
-set $red #ffffffff
-set $grey #ffffffff
-set $orange #ffffffff
-set $transparent #00000000
-
-set $foreground $white
-set $background $black
-
-#set_from_resource $black       color0  #000000
-#set_from_resource $darkred     color1  #000000
-#set_from_resource $darkgreen   color2  #000000
-#set_from_resource $darkyellow  color3  #000000
-#set_from_resource $darkblue    color4  #000000
-#set_from_resource $darkmagenta color5  #000000
-#set_from_resource $darkcyan    color6  #000000
-#set_from_resource $darkwhite   color7  #000000
-#set_from_resource $red         color9  #cc0000
-#set_from_resource $green       color10 #000000
-#set_from_resource $yellow      color11 #000000
-#set_from_resource $blue        color12 #000000
-#set_from_resource $magenta     color13 #000000
-#set_from_resource $cyan        color14 #2e9ef4
-#set_from_resource $white       color15 #ffffff
-
 # }}}
 
 # {{{ # Input #
@@ -69,7 +45,7 @@ set $background $black
 input type:keyboard {
 	xkb_layout de
 	xkb_options ctrl:nocaps
-	repeat_delay 200
+	repeat_delay 300
 	repeat_rate 20
 }
 
@@ -81,7 +57,7 @@ input type:touchpad {
 	tap enabled
 	natural_scroll enabled
 #	dwt enabled
-# scroll_factor
+# 	scroll_factor
 #	middle_emulation enabled
 }
 
@@ -91,12 +67,24 @@ input type:touchpad {
 
 # NOTE! For naming see: swaymsg -t get_outputs
 
+# wayvnc tests.
+# NOTE! use resolution of target mashine
+# seat wayvnc fallback false
+# TODO: make as display mode later.
+# output $laptop resolution --custom 1366x768
+# output "HEADLESS-1" resolution --custom 1366x768
+# mode passthrough {
+#	bindsym $mod+t mode default
+# }
+# bindsym $mod+t mode passthrough
+# bindsym $mod+b bar mode dock
+# bindsym $mod+Shift+b bar mode hide
+
 # Set wallpaper.
 # TODO: XDG_PICTURE_HOME
 swaybg_command swaybg
 output * bg ~/Pictures/Wallpapers/arch_snow.png fill
 
-#output * scale 2
 output $laptop {
 	scale 2
 }
@@ -136,6 +124,12 @@ popup_during_fullscreen smart
 default_border pixel 2
 for_window [shell=".*"] title_format "%title :: %shell"
 
+# Make pip working.
+# TODO: broken by terminal scratchpad
+for_window [title="^Picture-in-Picture$"] \
+	border pixel 2, resize set width 400 height 225, \
+	floating enable, move position 1192 667, sticky enable, focus tiling
+
 #                       BORDER  BACKGROUND  TEXT    INDICATOR
 #client.focused         #556064 #556064     #80FFF9 #FDF6E3
 client.focused          #16A085 #16A085     #80FFF9 #FDF6E3
@@ -172,11 +166,13 @@ bindsym $mod+Ctrl+l exec swaylock
 # Gopass
 bindsym $mod+p exec gopass ls --flat | wofi -d -p gopass | xargs --no-run-if-empty gopass show -c
 
+# TODO: Language translations via wofi
+
 # Rofi
 # bindsym $mod+l exec iwlist wlp2s0 scanning | grep ESSID | cut -d\" -f2 | rofi -dmenu
 
 # Start launcher.
-bindsym $mod+space exec "swaymsg fullscreen disable; wofi --show=drun"
+bindsym $mod+space exec "wofi --show=drun"
 
 # Reload configuration file.
 bindsym $mod+Shift+r reload
@@ -243,11 +239,6 @@ bindsym $mod+Shift+7 move container to workspace $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 
-# Enable pip mode for current window.
-#bindsym $mod+s fullscreen disable; floating enable; resize set 600 400; sticky enable; move window to position 1940 54
-# bindsym $mod+a focus parent
-# bindsym $mod+Shift+a focus child
-
 # Scratchpad.
 bindsym $mod+Shift+m move scratchpad
 bindsym $mod+Ctrl+m scratchpad show; resize set 98ppt 30ppt; move position 15px 610px;
@@ -269,7 +260,8 @@ bindsym $mod+XF86AudioMute exec --no-startup-id pactl set-sink-mute "@DEFAULT_SI
 
 # Screenshot
 # bindsym $mod+n exec --no-startup-id thunar
-# bindsym --release Print exec --no-startup-id "maim -p 0 -c 0.96,0.5,0.09 $HOME/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png"
+#bindsym --release Print exec --no-startup-id "maim -p 0 -c 0.96,0.5,0.09 $HOME/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png"
+bindsym --release Print exec --no-startup-id screenshot --notify save area
 # bindsym --release Shift+Print exec --no-startup-id "maim -s -p 0 -c 0.96,0.5,0.09 $HOME/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png"
 
 # TODO: use them if you want...
@@ -480,6 +472,8 @@ bar {
 # {{{ AUTOSTART #
 
 # NOTE! notification daemon mako starts up via dbus activation automatically.
+# -> not working with mako-git
+exec_always --no-startup-id mako &
 
 # Enable tablet mode.
 #exec_always --no-startup-id watchTablet &
@@ -497,5 +491,9 @@ for_window [class="Signal"] move to workspace $ws8
 
 # Show success notification.
 exec_always notify-send --expire-time=7000 --app-name="sway" --urgency=low --icon=/usr/share/backgrounds/sway/Sway_Wallpaper_Blue_768x1024.png "Window Manager" "Startup successfull."
+
+# Use for headless vnc mode tests.
+# exec_always swaymsg seat wayvnc fallback false
+# exec_always wayvnc --seat=wayvnc 192.168.178.31
 
 # }}}

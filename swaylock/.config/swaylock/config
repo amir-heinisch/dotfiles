@@ -1,3 +1,15 @@
+#############################################################################
+#                                                                           #
+# This file configures the swaylock lockscreen.                             #
+#                                                                           #
+# @package    dotfiles/swaylock                                             #
+# @filename   .config/swaylock/config                                       #
+# @author     Amir Heinisch <mail@amir-heinisch.de>                         #
+# @link       https://amir-heinisch.de                                      #
+# @version    1.1 (07/10/2020)                                              #
+#                                                                           #
+#############################################################################
+
 image=~/Pictures/Wallpapers/arch_snow.png
 scaling=fill
 
@@ -5,8 +17,6 @@ font=Droid Sans Mono
 font-size=30
 
 indicator-idle-visible
-#show-keyboard-layout
-
 indicator-radius=100
 indicator-thickness=5
 
@@ -38,11 +48,11 @@ inside-clear-color=00000000
 inside-ver-color=00000000
 inside-wrong-color=00000000
 
-# Green theme.
-#text-color=16a085ff
-#text-clear-color=16a085ff
-#text-ver-color=16a085ff
-#key-hl-color=16a085ff
-#bs-hl-color=16a085ff
-#separator-color=16a085ff
-#layout-text-color=16a085ff
+## Green theme option.
+# text-color=16a085ff
+# text-clear-color=16a085ff
+# text-ver-color=16a085ff
+# key-hl-color=16a085ff
+# bs-hl-color=16a085ff
+# separator-color=16a085ff
+# layout-text-color=16a085ff

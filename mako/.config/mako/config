@@ -1,0 +1,49 @@
+#############################################################################
+#                                                                           #
+# This file configures the mako notification daemon.                        #
+#                                                                           #
+# @package    dotfiles/mako                                                 #
+# @filename   .config/mako/config                                           #
+# @author     Amir Heinisch <mail@amir-heinisch.de>                         #
+# @link       https://amir-heinisch.de                                      #
+# @version    1.1 (07/10/2020)                                              #
+#                                                                           #
+#############################################################################
+
+# Global configuration options
+max-history=20
+sort=+time
+
+# Button and touch bindings
+on-button-left=dismiss
+on-button-middle=dismiss
+on-button-right=dismiss
+on-touch=dismiss
+
+# Style options
+font=monospace 10
+background-color=#263238f4
+text-color=#f9faf9ff
+width=350
+height=250
+margin=10
+padding=20,0
+border-size=2
+border-color=#16a085aa
+border-radius=20
+progress-color=over #5588aaff
+icons=1
+max-icon-size=32
+icon-path=/usr/share/icons/gnome
+icon-location=left
+markup=1
+actions=0
+history=1
+format=<b>%s</b> <i>(%a)</i>\n\n%b
+default-timeout=0
+ignore-timeout=1
+group-by=none
+max-visible=-1
+output=""
+layer=overlay
+anchor=top-right

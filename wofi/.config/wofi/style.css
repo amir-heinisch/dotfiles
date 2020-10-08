@@ -1,0 +1,55 @@
+/*########################################################################
+#                                                                        #
+# This file contains my personal wofi theme.                             #
+#                                                                        #
+# @package    dotfiles/wofi                                              #
+# @filename   .config/wofi/style.css                                     #
+# @author     Amir Heinisch <mail@amir-heinisch.de>                      #
+# @link       https://amir-heinisch.de                                   #
+# @version    1.1 (07/10/2020)                                           #
+#                                                                        #
+########################################################################*/
+
+#window {
+	background-color: rgba(0,0,0,0);
+}
+
+#outer-box {}
+
+#input {
+	background-color: #222d31;
+	border-radius: 5px;
+	border: 0px solid #16a085;
+	padding: 15px;
+	color: #f9faf9;
+	font-size: 23px;
+}
+
+#scroll {
+	border: 0px;
+	border-radius: 10px;
+	margin: 2px;
+	background-color: #222d31;
+}
+
+#entry {
+	padding: 12px;
+	color: #f9faf9;
+	font-size: 15px;
+	border-bottom: 0.5px solid #555555;
+}
+
+#entry:selected {
+	background-color: #16A085;
+	color: #222D31;
+	border-radius: 5px;
+}
+
+#img {
+	margin-right: 10px;
+}
+
+expander #entry {
+	background-color: #16a085;
+	color: #222d31;
+}

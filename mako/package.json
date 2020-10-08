@@ -1,0 +1,9 @@
+{
+	"name": "mako",
+	"description": "Notification daemon",
+	"configDependencies": [],
+	"packages": {
+		"yay": [ "mako-git" ],
+		"pacman": [ "mako" ]
+	}
+}

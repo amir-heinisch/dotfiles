@@ -1,0 +1,8 @@
+{
+	"name": "swaylock",
+	"description": "Lockscreen",
+	"configDependencies": [],
+	"packages": {
+		"pacman": [ "swaylock" ]
+	}
+}

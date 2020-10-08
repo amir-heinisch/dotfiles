@@ -1,0 +1,91 @@
+#############################################################################
+#                                                                           #
+# This file configures i3status.                                            #
+#                                                                           #
+# @package    dotfiles/i3status                                             #
+# @filename   .config/i3status/config                                       #
+# @author     Amir Heinisch <mail@amir-heinisch.de>                         #
+# @link       https://amir-heinisch.de                                      #
+# @version    1.1 (07/10/2020)                                              #
+#                                                                           #
+#############################################################################
+
+# It is important that this file is edited as UTF-8.
+# The following line should contain a sharp s:
+# ß
+# If the above line is not correctly displayed, fix your editor first!
+
+##### Configure general stuff here.
+general {
+	output_format = "i3bar"
+	colors = true
+	interval = 5
+	color_good = "#16A085"
+	color_bad = "#E74C3C"
+}
+
+##### Enable widgets in preferred order.
+order += "ethernet _first_"
+order += "wireless _first_"
+order += "disk /"
+order += "memory"
+order += "cpu_usage"
+order += "battery all"
+order += "volume master"
+order += "tztime local"
+
+##### Configure widgets.
+
+ethernet _first_ {
+	# TODO: find icon
+	format_up = " lan: %essid [%ip] "
+	format_down = ""
+}
+
+wireless _first_ {
+	format_up = "   %essid [%ip,%quality] "
+	format_down = ""
+}
+
+disk "/" {
+	format = "  %used / %total "
+	low_threshold = 2
+	threshold_type = "percentage_free"
+}
+
+memory {
+	format = "mem: %used / %total"
+	threshold_critical = "10%"
+}
+
+cpu_usage {
+	format = "cpu: %usage"
+	max_threshold = 75
+}
+
+battery all {
+	format = " %status %percentage (%remaining\h) "
+	format_down = ""
+	hide_seconds = true
+	integer_battery_capacity = true
+	last_full_capacity = true
+	threshold_type = "percentage"
+	low_threshold = 20
+	status_chr = "   "
+	status_bat = "   "
+	status_unk = "   "
+	status_full = "   "
+}
+
+
+volume master {
+	format = "♪ %volume"
+	format_muted = "♪: muted (%volume)"
+	device = "default"
+	mixer = "Master"
+	mixer_idx = 0
+}
+
+tztime local {
+	format = "   %A %e.%B (KW %V)   %H:%M "
+}

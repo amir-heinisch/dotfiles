@@ -1,0 +1,8 @@
+{
+	"name": "i3status",
+	"description": "Content provider for the swaybar",
+	"configDependencies": [],
+	"packages": {
+		"pacman": [ "i3status" ]
+	}
+}

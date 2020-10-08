@@ -1,0 +1,109 @@
+// ##########################################################################
+// #                                                                        #
+// # This file contains my personal apple spotlight like rofi them.         #
+// #                                                                        #
+// # @package    dotfiles/rofi                                              #
+// # @filename   .config/rofi/theme.rasi                                    #
+// # @author     Amir Heinisch <mail@amir-heinisch.de>                      #
+// # @link       https://amir-heinisch.de                                   #
+// # @version    1.0 (10/04/2020)                                           #
+// #                                                                        #
+// ##########################################################################
+
+configuration {
+
+    // Names of views.
+    display-ssh:    "" ;
+    display-run:    "";
+    display-drun:   "";
+    display-window: """ ;
+    display-combi:  "";
+    show-icons:     true;
+
+}
+
+* {
+
+    // Define some colors.
+    fg: #F9FAF9;
+    tr: #00000000;
+    bg: #222D31ec;
+
+    font: "Droid Sans Mono 10";
+
+    foreground: @fg;
+    color:  @fg;
+    text-color:  @fg;
+    background-color: @bg;
+
+    transparency: "real";
+}
+
+#window {
+    anchor:   north;
+    location: north;
+    width: 100%;
+    height: 100%;
+    border-radius: 0px;
+    padding: 0px;
+    background-color: @tr;
+    children:  [mainbox];
+}
+
+#mainbox {
+    padding: 25%;
+    spacing: 10px;
+    background-color: @tr;
+    children: [inputbar, listview]; 
+}
+
+#inputbar {
+    background-color: @bg;
+    border-color: @tr;
+    padding:5px;
+    border: 2px 2px 0px 2px;
+    border-radius: 10px;
+    children: [prompt, entry];
+}
+
+#prompt {
+    padding: 20px 20px 0px 20px;
+    text-color: #16A085cc;
+    font: "Droid Sans Mono 15";
+    background-color: @tr;
+}
+
+#entry {
+    padding: 20px 20px 20px 10px;
+    font: "Droid Sans Mono 15";
+    background-color: @tr;
+}
+
+#listview {
+    reverse: false;
+    background-color: @bg;
+    padding: 0px;
+    border-radius: 10px 10px 10px 10px;
+    border: 0px;
+    border-color: @tr;
+    spacing: 5px;
+    cycle: false;
+    scrollbar: false;
+    lines: 1;
+    columns: 2;
+    children: [element];
+}
+
+#element {
+    padding: 20px;
+    background-color: @tr;
+    border-color: #595B5B;
+    border: 0px 0px 1px 0px;
+}
+
+#element selected {
+    background-color: #16A085cc;
+    text-color: #222D31;
+    border-color: #222D31;
+    border-radius: 5px;
+}

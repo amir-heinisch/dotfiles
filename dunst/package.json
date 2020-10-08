@@ -1,0 +1,7 @@
+{
+	"name": "dunst",
+	"description": "This is my prefered notification daemon for i3. The test script simply fires some notifications via notify-send to test dunst.",
+	"packages": {
+		"pacman": "dunst"
+	}
+}

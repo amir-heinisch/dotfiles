@@ -1,0 +1,10 @@
+{
+	"name": "rofi",
+	"description": "Better application launcher then dmenu",
+	"packages": {
+		"pacman": "rofi"
+	},
+	"setup": {
+		"manual": [ "Change pid path for current user in config." ]	
+	}
+}

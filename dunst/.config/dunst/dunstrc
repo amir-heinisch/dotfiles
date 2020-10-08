@@ -1,0 +1,140 @@
+#############################################################################
+#                                                                           #
+# This file contains my personal dunst configurations.                      #
+#                                                                           #
+# @package    dotfiles/dunst                                                #
+# @filename   .config/dunst/dunstrc                                         #
+# @author     Amir Heinisch <mail@amir-heinisch.de>                         #
+# @link       https://amir-heinisch.de                                      #
+# @version    1.1 (10/04/2020)                                              #
+#                                                                           #
+#############################################################################
+
+[global]
+    # Display notification on focused monitor.
+    follow = keyboard
+
+    # Set position and size of notification window.
+    geometry = "600x0-40+40"
+
+    # The height of one notification.
+    notification_height = 0
+
+    # Show how many messages are currently hidden (because of geometry).
+    indicate_hidden = yes
+
+    # Shrink window if it's smaller than the width.
+    shrink = no
+
+    # The transparency of the window.  Range: [0; 100]. Copositor is needed.
+    transparency = 5
+
+    # Draw a line of "separator_height" pixel height between two notifications.
+    # Set to 0 to disable.
+    separator_height = 2
+    # NOTE! use white until transparent is working...
+    separator_color = "#595B5B"
+
+    # Draw border around notifications.
+    frame_color = "#595B5B"
+    frame_width = 2
+
+    # Padding between text and separator.
+    padding = 40
+
+    # Horizontal padding.
+    horizontal_padding = 40
+
+    # Sort messages by urgency.
+    sort = no
+
+    # Don't remove messages, if the user is idle (no mouse or keyboard input)
+    idle_threshold = 0
+
+    # Set font.
+    font = Droid Sans Mono 8
+    # Set line height.
+    line_height = 5
+
+    # Allow markup messages.
+    markup = full
+
+    # Ignore newlines '\n' in notifications.
+    ignore_newline = no
+
+    # The format of the message.
+    format = "<b>%s - (%a)</b>\n%b%p\n-"
+
+
+    # Align message text to left.
+    alignment = left
+
+    # Show message age directly.
+    show_age_threshold = 0
+
+    # Auto wrap to long lines.
+    word_wrap = yes
+
+    # When word_wrap is set to no, specify where to ellipsize long lines.
+    ellipsize = end
+
+    # Merge multiple notifications with the same content.
+    stack_duplicates = true
+    hide_duplicate_count = false
+
+    # Display indicators for URLs (U) and actions (A).
+    show_indicators = yes
+
+    # Align icons left/right/off
+    icon_position = left
+
+    # Scale larger icons down to this size, set to 0 to disable
+    max_icon_size = 38
+
+    # Paths to default icons.
+    icon_path = /usr/share/icons/gnome/256x256/status/:/usr/share/icons/gnome/16x16/devices/
+
+    # Should a notification popped up from history be sticky or timeout as if it would normally do.
+    sticky_history = yes
+
+    # Maximum amount of notifications kept in history
+    history_length = 100
+
+    ### Misc/Advanced ###
+
+    # dmenu path.
+    dmenu = /usr/bin/rofi -dmenu
+
+    # Browser for opening urls in context menu.
+    browser = /usr/bin/firefox
+
+    # Always run rule-defined scripts, even if the notification is suppressed
+    always_run_script = true
+
+    # Define the title of the windows spawned by dunst
+    title = Dunst Notifications
+
+    # Define the class of the windows spawned by dunst
+    class = Dunst
+
+    # Print a notification on startup.
+    startup_notification = true
+
+[shortcuts]
+    close = mod4+n
+    history = mod4+shift+n
+
+[urgency_low]
+    background = "#263238"
+    foreground = "#16A085"
+    timeout = 10
+
+[urgency_normal]
+    background = "#263238"
+    foreground = "#F9FAF9"
+    timeout = 20
+
+[urgency_critical]
+    background = "#263238"
+    foreground = "#E74C3C"
+    timeout = 30

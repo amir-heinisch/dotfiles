@@ -1,0 +1,170 @@
+#############################################################################
+#                                                                           #
+# This file contains my personal tmux config.                               #
+#                                                                           #
+# @package    dotfiles/tmux                                                 #
+# @filename   .conf/tmux/conf                                               #
+# @author     Amir Heinisch <mail@amir-heinisch.de>                         #
+# @link       https://amir-heinisch.de                                      #
+# @version    1.0 (08/04/2020)                                              #
+#                                                                           #
+#############################################################################
+
+# {{{ # Server options #
+
+# Set max number of buffers on stack.
+set-option -s buffer-limit 50
+
+# Set some aliases here.
+set-option -s command-alias ''
+set-option -s command-alias[0] 'info=show-messages -JT'
+
+# Value of TERM env var in new pane (screen or tmux or derived from them).
+set-option -s default-terminal 'screen-256color'
+
+# Make delay after escape sequence shorter.
+# TODO: check for problems.
+set-option -s escape-time 0
+
+# Exit server if last session is closed.
+set-option -s exit-empty on
+
+# Do not exit server if all clients unattached.
+set-option -s exit-unattached off
+
+# Passes focus events to application in tmux.
+# TODO: check for problems.
+set-option -s focus-events 'on'
+
+# Set history file location.
+set-option -s history-file '$XDG_HISTORY_HOME/tmux'
+
+# Messages buffer max size for client.
+set-option -s message-limit 10
+
+# No clipboard needed.
+set-option -s set-clipboard 'off'
+
+# Set mappings for escape sequences.
+# TODO: maybe we need these?
+#"xterm*:XT:Ms=\\E]52;%p1%s;%p2%s\\007:Cs=\\E]12;%p1%s\\007:Cr=\\E]112\\007:Ss=\\E[%p1%d q:Se=\\E[2 q"
+#terminal-overrides[1] screen*:XT
+set-option -s terminal-overrides ''
+
+# Set user key mappings.
+set-option -s user-keys ''
+
+# }}}
+
+# {{{ # Session options #
+
+# TODO: add more options.
+
+# }}}
+
+# {{{ # Windows options #
+
+# TODO: add more options.
+
+# }}}
+
+# {{{ # Pane options #
+
+# TODO: add more options.
+
+# Start counting windows from one.
+set-option -g base-index 1
+
+# Disable auto window renaming.
+set-option -g allow-rename off
+
+# Set pane border.
+#setw -g pane-border-status top
+set-option -g pane-border-status top
+set-option -g pane-border-style 'bg=default,fg=default'
+set-option -g pane-active-border-style 'bg=default,fg=#16A085 bold'
+set-option -g pane-border-format ' #{pane_current_command} '
+
+# }}}
+
+# {{{ # Style options #
+
+# TODO: add more options.
+
+# Enable a status bar.
+set-option -g status on
+set-option -g status-position top
+set-option -g status-interval 20
+set-option -g status-justify centre
+set-option -g status-style 'bg=default,fg=default'
+
+# }}}
+
+# {{{ # Key bindings #
+
+# unbind all keys
+# TODO: enable later.
+# unbind-key -a 
+
+# Set prefix key.
+set-option -g prefix M-j
+bind-key M-j send-prefix
+
+# Split window vertically.
+bind-key -T prefix m split-window -h -c '#{pane_current_path}'
+# Split window horizontally.
+bind-key -T prefix n split-window -v -c '#{pane_current_path}'
+
+# Switch windows.
+bind-key -T prefix i previous-window
+bind-key -T prefix o next-window
+
+# Switch panes.
+bind-key -T prefix h select-pane -L
+bind-key -T prefix l select-pane -R
+bind-key -T prefix j select-pane -D
+bind-key -T prefix k select-pane -U
+
+# Maximize pane.
+bind-key -T prefix M-j resize-pane -Z
+
+# Remap scroll mode.
+bind-key -T prefix Space copy-mode
+# Use v to trigger selection
+bind-key -T copy-mode-vi v send-keys -X begin-selection
+# Use y to yank current selection
+bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
+
+# Use p to paste
+bind-key -T prefix p paste-buffer
+# Reload tmux config.
+bind-key -T prefix r "source-file ${HOME}/.tmux.conf \; display '.tmux.conf reloaded!'"
+
+# Show tree view.
+# TODO: use nicer format.
+bind-key -T prefix s choose-tree -GN
+# Open manpage in different pane.
+#bind-key -T root M-m command-prompt "split window -h 'exec man %%'"
+
+# Enable remote mode.
+bind -T root F7  \
+  set prefix None \;\
+  set key-table off \;\
+  set status off \;\
+  set pane-active-border-style 'bg=default,fg=default' \;\
+  set pane-border-format ' REMOTE TMUX SESSION ' \;\
+  resize-pane -Z \;\
+  if -F '#{pane_in_mode}' 'send-keys -X cancel' \;\
+  refresh-client -S \;
+
+# Deactivate remote mode.
+bind -T off F7 \
+  set -u prefix \;\
+  set -u key-table \;\
+  set -u status \;\
+  set -u pane-active-border-style \;\
+  set -u pane-border-format \;\
+  resize-pane -Z \;\
+  refresh-client -S \;
+
+# }}}

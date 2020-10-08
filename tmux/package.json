@@ -1,0 +1,10 @@
+{
+	"name": "tmux",
+	"description": "Best terminal multiplexer available.",
+	"packages": {
+		"pacman": [ "tmux" ]
+	},
+	"setdown": {
+		"files": [ "${XDG_HISTORY_HOME}/tmux" ]
+	}
+}

@@ -1,0 +1,120 @@
+#############################################################################
+#                                                                           #
+# This file contains my personal zsh configurations.                        #
+#                                                                           #
+# @package    dotfiles/zsh                                                  #
+# @filename   .config/zsh/.zshrc                                            #
+# @author     Amir Heinisch <mail@amir-heinisch.de>                         #
+# @link       https://amir-heinisch.de                                      #
+# @version    1.0 (09/04/2020)                                              #
+#                                                                           #
+#############################################################################
+
+# {{{ # GENERAL #
+
+# Load all generic stuff from ${HOME}/.config/shell/generic.
+# TODO: some stuff gets overwritten by oh-my-zsh!!!
+if [ -f "${HOME}/.config/shell/generic" ]
+then
+    source "${HOME}/.config/shell/generic"
+fi
+
+# }}}
+
+# {{{ # HISTORY #
+
+# Set history options.
+export HISTFILE="${XDG_HISTORY_HOME}/zsh"
+SAVEHIST=2000
+setopt inc_append_history
+setopt share_history
+
+# }}}
+
+# {{{ # COMPLETION #
+
+# Set completion options.
+# TODO: make this working
+# autoload -U compinit
+# compinit -d "${XDG_CACHE_HOME}/zcompdump"
+
+# }}}
+
+# {{{ # THEME #
+
+# Load theme.
+# TODO! Make day and night.
+source "${XDG_CONFIG_HOME}/zsh/my.zsh-theme"
+
+# }}}
+
+# {{{ # PLUGINS #
+
+# {{{ ## OH-MY-ZSH OPTIONS ##
+
+# brew does not allow root and runs unde user admin.
+# zsh wants current user so disable zsh warning:
+ZSH_DISABLE_COMPFIX=true
+
+# Disable oh-my-zsh theme.
+# ZSH_THEME=""
+
+# Plugins.
+# Example: plugins=(aws kubectl adb docker git)
+#plugins=( adb alias-finder aws command-not-found copybuffer dash docker-compose docker extract fzf git-prompt gitfast github golang helm kops kubectl man minikube safe-paste taskwarrior timer vscode)
+plugins=( alias-finder command-not-found copybuffer gitfast man safe-paste timer vscode )
+
+# Uncomment the following line to use hyphen-insensitive completion. Case
+# sensitive completion must be off. _ and - will be interchangeable.
+HYPHEN_INSENSITIVE="true"
+
+# Uncomment the following line to disable bi-weekly auto-update checks.
+DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty.
+DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+## }}}
+
+# Load oh-my-zsh.
+# TODO: maybe live without oh-my-zsh overhead?!
+export ZSH="${XDG_CONFIG_HOME}/zsh/plugins/oh_my_zsh"
+source $ZSH/oh-my-zsh.sh
+
+# Add fish like auto suggestions.
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=4"
+ZSH_AUTOSUGGEST_STRATEGY=(history)
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+ZSH_AUTOSUGGEST_USE_ASYNC=1
+source ${XDG_CONFIG_HOME}/zsh/plugins/autosuggestions/zsh-autosuggestions.zsh
+
+# Add some cool syntax highlighting.
+# NOTE! Needs to be last plugin to source.
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main) #brackets pattern cursor
+source ${XDG_CONFIG_HOME}/zsh/plugins/syntax_highlighting/zsh-syntax-highlighting.zsh
+
+# }}}
+
+# {{{ # KEYS #
+
+# NOTE! Needs to be after oh-my-zsh!
+
+# Use zsh with vim style navigation.
+bindkey -v
+bindkey '^r' history-incremental-search-backward
+bindkey -M viins 'jk' vi-cmd-mode
+bindkey '^ ' autosuggest-accept
+
+# }}}
+
+export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
+source /usr/share/fzf/key-bindings.zsh
+source /usr/share/fzf/completion.zsh
+
+fman() {
+    man -k . | fzf -m --preview 'head -50 <(man {1})' --prompt='man> ' | awk '{print $1}' | xargs -r man
+}

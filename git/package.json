@@ -1,0 +1,7 @@
+{
+	"name": "git",
+	"description": "modern source code version control system.",
+	"packages": {
+		"pacman": [ "git" ]
+	}
+}

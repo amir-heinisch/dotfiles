@@ -1,0 +1,13 @@
+{
+	"name": "ssh",
+	"description": "This is just a placeholder and an example for ssh client configuration. You need to manually add your connections in the config file. To generate your keys use: ssh-keygen -t rsa -b 4096.",
+	"packages": {
+		"pacman": [ "openssh" ]
+	},
+	"setup": {
+		"manual": [ "You need to add you ssh connection to the config file by hand. Be carefull to not upload them.." ]
+	},
+	"setdown": {
+		"files": [ "${HOME}/.ssh/" ]
+	}
+}

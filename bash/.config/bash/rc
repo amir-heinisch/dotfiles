@@ -1,0 +1,32 @@
+#############################################################################
+#                                                                           #
+# This file configures my bash.                                             #
+#                                                                           #
+# @package    dotfiles/bash                                                 #
+# @filename   .config/bash/rc                                               #
+# @author     Amir Heinisch <mail@amir-heinisch.de>                         #
+# @link       https://amir-heinisch.de                                      #
+# @version    1.0 (08/08/2020)                                              #
+#                                                                           #
+#############################################################################
+
+# Only do anything if we run interactively.
+# NOTE! Not POSIX compatible.
+[[ $- != *i* ]] && return
+
+# Source global configurations if needed.
+# [ -f /etc/bashrc ] && . /etc/bashrc
+
+# Load all generic shell stuff.
+if [ -f ~/.config/shell/generic ];
+then
+	. ~/.config/shell/generic;
+else
+	echo "WARNING: Generic shell configuration is not in place."
+fi
+
+# Set bash history file to correct location.
+export HISTFILE="${XDG_HISTORY_HOME}/bash"
+
+# Show user a solution...
+command -v zsh >/dev/null && echo "INFO: ZSH is installed...why not using it?"

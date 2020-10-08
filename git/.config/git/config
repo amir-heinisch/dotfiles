@@ -1,0 +1,6 @@
+[user]
+	name = Amir Heinisch
+	email = mail@amir-heinisch.de
+
+[push]
+	default = simple

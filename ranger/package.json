@@ -1,0 +1,7 @@
+{
+	"name": "ranger",
+	"description": "My favourite cli file browser, which can even display images.",
+	"packages": {
+		"pacman": [ "ranger" ]
+	}
+}

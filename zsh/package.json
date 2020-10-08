@@ -1,0 +1,10 @@
+{
+	"name": "zsh",
+	"description": "The shell to use. Very customizable with some nice plugins and features.",
+	"packages": {
+		"pacman": [ "zsh" ]
+	},
+	"setdown": {
+		"files": [ "${HOME}/.zcompdump-*", "${XDG_HISTORY_HOME}/zsh" ]
+	}
+}

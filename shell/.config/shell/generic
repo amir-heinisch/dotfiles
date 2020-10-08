@@ -1,0 +1,371 @@
+#############################################################################
+#                                                                           #
+# This file loads all my generic shell config stuff.                        #
+#                                                                           #
+# @package    dotfiles/shell                                                #
+# @filename   .config/shell/generic                                         #
+# @author     Amir Heinisch <mail@amir-heinisch.de>                         #
+# @link       https://amir-heinisch.de                                      #
+# @version    1.0 (14/04/2020)                                              #
+#                                                                           #
+#############################################################################
+
+# {{{ # Environment Variables #
+
+# Set path: user bin | $PATH | rust (cargo) | go | node (npm) | ruby (gem) |
+# TODO: check if ruby is installed and add this: $(ruby -e 'print Gem.user_dir')/bin
+export PATH="${HOME}/.local/bin:${PATH}:${HOME}/.cargo/bin:${HOME}/go/bin:${HOME}/.npm-packages/bin:$(ruby -e 'print Gem.user_dir')/bin"
+
+# Set lang.
+export LANG=en_US.UTF-8
+
+# Use powerline delimiter. (Unset variable to not use it)
+# Quick fix to only run in x env..
+# NOTE! You need to install some patched font first.
+[ $DISPLAY ] && export POWERLINE=1
+
+# Set default applications.
+export EDITOR='vim'
+export VISUAL='vim'
+export PAGER='less'
+export MUSIC="spotify"
+export BROWSER="firefox"
+export TERM='xterm-256color'
+
+# Set XDG paths + some custom ones.
+export XDG_DATA_HOME="${HOME}/.local/share"
+export XDG_CONFIG_HOME="${HOME}/.config"
+export XDG_CACHE_HOME="${HOME}/.cache"
+#export XDG_RUNTIME_HOME="/run/user/$(id -u)"
+
+export XDG_HISTORY_HOME="${HOME}/.local/history"
+export XDG_MAN_HOME="${HOME}/.local/man"
+export XDG_LOG_HOME="${HOME}/.local/log"
+export XDG_FONT_HOME="${HOME}/.local/font"
+export XDG_PICTURE_HOME="${HOME}/Pictures"
+
+# Create folder if not existent.
+mkdir -p $XDG_DATA_HOME $XDG_CONFIG_HOME $XDG_CACHE_HOME $XDG_HISTORY_HOME $XDG_MAN_HOME $XDG_LOG_HOME $XDG_PICTURE_HOME
+
+# Set manpage PATH.
+export MANPATH="${XDG_MAN_HOME}:/usr/local/man:${MANPATH}"
+export MANPAGER="less"
+export MANWIDTH='70' # Better way?
+
+# Set shell prompt.
+. ${XDG_CONFIG_HOME}/shell/prompt
+
+# Set proxy here if needed:
+#
+# PROXY="http://localhost:3128"
+#
+# export http_proxy="$PROXY"
+# export HTTP_PROXY="$PROXY"
+#
+# export https_proxy="$PROXY"
+# export HTTPS_PROXY="$PROXY"
+#
+# export ftp_proxy="$PROXY"
+# export FTP_PROXY="$PROXY"
+#
+# export all_proxy="$PROXY"
+# export ALL_PROXY="$PROXY"
+#
+# export NO_PROXY=""
+
+# }}}
+
+# {{{ # Functions #
+
+# TODO: make functions generic for all shells.
+
+if [ -n "$ZSH_VERSION" ]; then
+
+# go up one time
+function __one_dir_up() {
+  BUFFER="cd .."
+  zle accept-line
+}
+zle -N __one_dir_up
+bindkey "^h" __one_dir_up
+
+# Edit and rerun
+function __edit_in_vim_and_rerun() {
+  BUFFER="fc"
+  zle accept-line
+}
+zle -N __edit_in_vim_and_rerun
+bindkey "^e" __edit_in_vim_and_rerun
+
+# Add Sudo
+function __add_sudo() {
+  BUFFER="sudo "$BUFFER
+  zle end-of-line
+}
+zle -N __add_sudo
+bindkey "^s" __add_sudo
+
+# Autocompletion with strg+space
+bindkey '^ ' autosuggest-accept
+
+fi
+
+# Change dir and list contents.
+function __cd_ls() {
+    cd $1;
+    ls -ahl;
+}
+
+# This function creates gitingore files from gitignore.io.
+function __gitignore() {
+    curl -L -s https://www.gitignore.io/api/$@
+}
+
+# Show hidden characters in less.
+function __hidden_less() { 
+    cat -A $@ | less
+}
+
+# }}}
+
+# {{{ # Aliases #
+
+alias c="clear"
+alias les="ls -ahl --color=always | less -r"
+#alias ls='ls --color=auto'
+
+command -v notify-send >/dev/null && alias alert='notify-send "Terminal Alert" "Command finished."'
+
+# Use exa if installed.
+if command -v exa >/dev/null; then
+    alias l="exa -ahl --header --git"
+    alias ls="exa"
+else
+    alias l="ls -ahl"
+fi
+
+alias open="xdg-open"
+alias cd=__cd_ls
+alias gi=__gitignore
+
+# Safety first.
+alias rm="rm -i"
+alias cp="cp -i"
+alias mv="mv -i"
+
+# Disk usage.
+alias df="df -ah"
+alias free="free -m"
+alias duu="du -c -h -d1"
+
+# }}}
+
+# {{{ # TOOL CONFIGS #
+
+# {{{ ## Elinks ##
+
+# Change config path.
+command -v elinks >/dev/null && alias elinks="elinks -config-dir ${XDG_CONFIG_HOME}/elinks/"
+
+## }}}
+
+# {{{ ## Feh ##
+
+# Prevent feh from writing background file.
+command -v feh >/dev/null && alias feh="feh --nofehbg"
+
+## }}}
+
+## {{{ ## Xinit ##
+
+# Change config path.
+command -v xinit >/dev/null && export XINITRC="${XDG_CONFIG_HOME}/xorg/xinit"
+
+## }}}}
+
+## {{{ ## Kubectl ##
+
+# Add alias.
+command -v kubectl >/dev/null && alias k="kubectl" 
+
+## }}}
+
+## {{{ ## Chromium ##
+
+# Change user data path.
+#export CHROME_USER_DATA_DIR="${XDG_DATA_HOME}/chromium/"
+
+## }}}
+
+## {{{ ## Sqlite3 ##
+
+# Check if sqlite3 is installed.
+if command -v sqlite3 >/dev/null; then
+
+    # Change history file location.
+    export SQLITE_HISTORY="${XDG_HISTORY_HOME}/sqlite3"
+
+    # Change config path.
+    alias sqlite3="sqlite3 -init ${XDG_CONFIG_HOME}/sqlite3/rc"
+
+fi
+
+## }}}
+
+## {{{ ## Gopass ##
+
+# Source autocompletion stuff.
+# NOTE! Try this on macos: source /dev/stdin <<<"$(gopass completion bash)"
+
+## }}}}
+
+## {{{ ## Homebrew ##
+
+# Check if brew is installed.
+if command -v brew >/dev/null; then
+
+    # Disable homebrew analytics.
+    export HOMEBREW_NO_ANALYTICS=1
+
+    # Add autocompletion for brew.
+    # TODO: this is only zsh related..move later
+    FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+
+fi
+
+## }}}
+
+## {{{ ## Ansible ##
+
+# Ansible.
+# [ -n "$(command -v ansible)" ] && export ANSIBLE_HOST_KEY_CHECKING=False
+
+## }}}
+
+## {{{ ## Vim ##
+
+# Add aliases for terminal wordpress blogging.
+if command -v vim >/dev/null; then
+	alias v="vim"
+	alias nb="vim +BlogNew"
+	alias eb="vim +BlogList"
+fi
+
+## }}}
+
+## {{{ ## Tmux ##
+
+if command -v tmux >/dev/null; then
+	alias t="tmux"
+
+	# NOTE! .tmuxp.yaml in a project dir also works.
+	export TMUXP_CONFIGDIR="${XDG_CONFIG_HOME}/tmux/tmuxp"
+fi
+
+## }}}
+
+## {{{ ## Mamp ##
+
+# Start and stop server.
+# TODO: only on mac.
+alias mstart="sh /Applications/MAMP/bin/start.sh"
+alias mstop="sh /Applications/MAMP/bin/stop.sh"
+
+## }}}
+
+## {{{ ## Newsboat ##
+
+# Set alias.
+command -v newsboat >/dev/null && alias n="newsboat"
+#alias n="newsboat -r --url-file=${XDG_DATA_HOME}/newsboat/urls --cache-file=${XDG_CACHE_HOME}/newsboat/cache --config-file=${XDG_CONFIG_HOME}/newsboat/config --log-file=${XDG_LOG_HOME}/newsboat"
+
+## }}}
+
+## {{{ ## Archey3 ##
+
+command -v archey3 >/dev/null && alias archey3="archey3 --config=${XDG_CONFIG_HOME}/archey3/config"
+
+## }}}
+
+## {{{ ## Trans ##
+
+# Translate de to en.
+alias etrans="trans en:de "
+# Translate en to de.
+alias gtrans="trans de:en "
+
+## }}}
+
+## {{{ ## Less ##
+
+# Change history file path.
+command -v less >/dev/null && export LESSHISTFILE="${XDG_HISTORY_HOME}/less"
+
+# export LESS="-R"
+
+## }}}
+
+## {{{ ## Protonvpn ##
+
+command -v protonvpn-cli >/dev/null && alias vpn="protonvpn-cli"
+
+## }}}
+
+## {{{ ## Wget ##
+
+# Change config and history paths.
+# Other option: export WGETRC="${XDG_CONFIG_HOME}/wget/rc"
+command -v wget >/dev/null && alias wget="wget --config=${XDG_CONFIG_HOME}/wget/rc --hsts-file=${XDG_HISTORY_HOME}/wget"
+
+## }}}
+
+# {{{ ## Vim ##
+
+# Just to be save.
+command -v vim >/dev/null && alias vi="vim"
+
+# TODO: Change files pathes or use neovim. -> https://tlvince.com/vim-respect-xdg
+
+## }}}
+
+## {{{ ## Pulsemixer ##
+
+command -v pulsemixer >/dev/null && alias pm="pulsemixer"
+
+## }}}
+
+## {{{ ## Taskwarrior / Timewarrior ##
+
+if command -v task >/dev/null ; then
+	alias gtd="task"
+	alias todo="c;task due.before:eow or scheduled.before:eow"
+	export TASKRC="${XDG_CONFIG_HOME}/taskwarrior/rc"
+	alias tw="timew"
+	alias track="timew"
+	# TODO: we can not move db yet..
+	#export TIMEWARRIORDB="${XDG_CONFIG_HOME}/taskwarrior/timerc"
+fi
+
+## }}}
+
+## {{{ ## Gnupg ##
+
+# Change config path or use other option: alias gpg="gpg --homedir ${XDG_CONFIG_HOME}/gnupg"
+which gpg >/dev/null && export GNUPGHOME="${XDG_CONFIG_HOME}/gnupg"
+
+## }}}
+
+## {{{ ## Xorg ##
+
+export XAUTHORITY="${XDG_CONFIG_HOME}/xorg/Xauthority"
+
+## }}}
+
+## {{{ ## Firefox ##
+
+# Enable touch.
+export MOZ_USE_XINPUT2=1
+
+## }}}
+
+# }}}

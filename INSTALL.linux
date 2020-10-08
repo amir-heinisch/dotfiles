@@ -1,0 +1,69 @@
+#!/bin/sh
+
+$debug && echo "Linux intall script started."
+exit 0
+
+# ~/.config needs to be a folder.
+[ -L "${HOME}/.config" ] && die "${HOME}/.config can not be a symlink."
+[ -d "${HOME}/.config" ] || mkdir "${HOME}/.config"
+
+# These folders can not be symlinks. We need to create them if needed.
+folders = ("~/.local/bin", "~/.local/pictures/lockscreens", "~/.local/pictures/wallpapers", "~/.local/pictures/screenshots", "~/.ssh")
+
+for folder in "${folders[@]}"; do
+	# TODO: maybe just replace symlink?
+	[ -L $folder ] || die "$folder can not be a symlink."
+	[ -d $folder ] || mkdir -p $folder
+done
+
+# Find out current distro.
+# NOTE! Read os-release manpage for more info.
+[ -f /etc/os-release ] || die 'Your distro is not supported.'
+. /etc/os-release
+
+# TODO: add other distors.
+# "pacman -S", "apt-get install", "yum install", "brew install", "snap", "yay -S"
+if [ $ID == "arch" ]; then # Arch Linux.
+	# Pacman should be installed on archlinux.
+	[ $(which pacman) ] || die 'ERROR! Pacman should be installed on archlinux.'
+	pm = pacman
+fi
+
+# Sync package manager db and install all needed packages if wanted.
+needed_packages = ['stow', 'grep', 'sed', 'jq']
+$install && installPackages $pm "${needed_packages[@]}"
+
+# Check if needed packages are in path.
+for pack in $needed_packages; do
+	which $package 2>/dev/null || die "ERROR! $pack should be in PATH. Try manual installation."
+done;
+
+# Install tools.
+PWD=$(pwd)
+for tool in "${tools[@]}"
+do
+	echo "---------- $tool -----------------"
+	$debug && echo "[$tool] Start installing."
+
+	# Skip if package.json is missing.
+	[ -f "$PWD/$tool/package.json" ] || ( echo "[$tool] WARNING! No package.json file available for this package...skip" && continue )
+
+	# TODO: parse package.json file
+	# packages += <packages to install>
+	# msn = <manual setup warnings>
+	# configPackage += <name>
+	$install && installPackages $pm $packages
+
+	# Inform user if manual work is needed.
+	if $MSN; then
+		echo "[$tool] WARNING! Manual setup is needed: "
+		cat $tool/.msn
+	fi
+
+	# Symlink files.
+	[ $(stow --ignore='package.json' -d $PWD -t $HOME $tool) ] && echo "[$tool] Configurations are in place now."
+
+	$debug && echo "[$tool] Finished installing."
+done
+
+$debug && echo "Linux intall script finished."

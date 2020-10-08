@@ -1,0 +1,74 @@
+#!/bin/sh
+
+# TODO: Parse input.
+# ./INSTALL [flags]
+# -p	| --package	installs tool pack.
+# -i	| --install	try to install missing packages.
+# -dr	| --dry-run	just runs dry.
+# -q 	| --quiet	disables all stdout output.
+# -d	| --debug	enables debug output.
+# -h	| --help	prints this help text.
+
+# -u	| --uninstall	uninstall dot files.
+# -b	| --backup	backup all files and changes.
+
+debug=false
+install=false
+dry=false
+quiet=false
+package=minimal
+
+echo "Installation started."
+
+# Say last words..
+function die { printf >&2 '%s\n' "$@"; exit 1; }
+# Function to install packages.
+function installPackages { exec "$@"; }
+
+# Just warn..
+[ $(pwd) = "${HOME}/.dotfiles" ] || echo "WARNING! Your are not in ${HOME}/.dotfiles"
+
+# Need to run with root privilidges.
+[ $(id -u) -eq 0 ] || die "ERROR! You need to run this script with root privilidges."
+
+# Need git repo.
+[ -d ./.git ] || die "ERROR! Your are not in a git repo."
+
+# Check if git submodules are initialized.
+[ -f ./.gitmodules ] || die "ERROR! .gitmodules file needs to be available."
+[ $(git submodule status | wc -l) = $(cat .gitmodules | grep submodule | wc -l) ] || die "ERROR! Please first run 'git submodule update --init --recursive'"
+
+# Define tool packs.
+minimal=("tmux" "shell" "zsh" "vim")
+# Ideas for later:
+# terminal=("tmux" "shell" "zsh" "vim" "ranger" "git" "newsboat" "bash" "ssh" "gopass")
+# i3=("xorg" "i3" "dunst" "rofi" "guake" "spotify" "signal" "vimium")
+# kde=("xorg" "plasma")
+# sway=("sway" "guake")
+# kdew=("weston" "plasma")
+# gui=("${i3[@]}" "${kde[@]}")
+# guiw=("${sway[@]}" "${kdew[@]}")
+# more=("etc" "local" "brew")
+# mac=("brew" "iTerm2", "firefox", "textEdit" "terminal" "safari")
+# all=("${terminal[@]}" "${gui[@]}" "${guiw[@]}" "${more[@]}" "${mac[@]}")
+
+# Hand over to os specific installation script.
+case $(uname -s) in
+	Windows)
+		# Install on windows.
+		source os/windows/INSTALL
+		;;
+	Darwin)
+		# Install on macos.
+		source os/macos/INSTALL
+		;;
+	Linux)
+		# Install on linux.
+		source os/linux/INSTALL
+		;;
+	*)
+		die 'Your OS is not supported.'
+		;;
+esac
+
+echo "Installation finished."
